@@ -1,0 +1,131 @@
+#contlogin
+{
+    
+    width:190px;
+                    
+    
+    height:150px;
+                    
+    
+    background-color:rgb(47, 79, 79);
+                    
+    
+    position: absolute; left: 586px; top: 110px;
+                    
+}
+#contFondo
+{
+    
+    width:800px;
+                    
+    
+    height:100px;
+                    
+    
+    background-color:rgb(64, 64, 64);
+                    
+    
+    position: absolute; left: 25px; top: 330px;
+                    
+}
+#cmdIngresar
+{
+    
+                    
+    
+    position: absolute; left: 40px; top: 100px;
+                    
+}
+#pswClave
+{
+    
+                    
+    
+    position: absolute; left: 67px; top: 48px;
+                    
+}
+#passw
+{
+    
+    width:53px;
+                    
+    
+    height:13px;
+                    
+    
+    color:rgb(128, 128, 128);
+                    
+    
+                    
+    
+    position: absolute; left: 11px; top: 54px;
+                    
+}
+#Nombre
+{
+    
+    width:44px;
+                    
+    
+    height:13px;
+                    
+    
+    color:rgb(128, 128, 128);
+                    
+    
+                    
+    
+    position: absolute; left: 8px; top: 21px;
+                    
+}
+#Texto0
+{
+    
+    background-color:rgb(12, 123, 12);
+                    
+}
+#contlogo2
+{
+    
+    width:150px;
+                    
+    
+    height:50px;
+                    
+    
+    background-color:rgb(0, 128, 128);
+                    
+    
+    position: absolute; left: 88px; top: 25px;
+                    
+}
+#ContLogo1
+{
+    
+    width:50px;
+                    
+    
+    height:50px;
+                    
+    
+    background-color:rgb(64, 64, 64);
+                    
+    
+    position: absolute; left: 36px; top: 25px;
+                    
+}
+#ContBody
+{
+    
+    width:800px;
+                    
+    
+    height:300px;
+                    
+    
+    background-color:rgb(64, 224, 208);
+                    
+    
+    position: absolute; left: 23px; top: 21px;
+                    
+}
