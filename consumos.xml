@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<listadoConsumos>
+    <consumo nitCliente="3000" idInstancia="31"> 
+        <tiempo> 8 </tiempo>
+        <fechaHora> 2022-06-10 13:00 Guatemala </fechaHora>
+    </consumo>
+    <consumo nitCliente="3000" idInstancia="31"> 
+        <tiempo> 10.25 </tiempo>
+        <fechaHora> 2022-06-12 12:20 USA</fechaHora>
+    </consumo>
+    <consumo nitCliente="3000" idInstancia="31"> 
+        <tiempo> 2 </tiempo>
+        <fechaHora> 2022-06-15 11:35 USA</fechaHora>
+    </consumo>
+    <consumo nitCliente="3002" idInstancia="321"> 
+        <tiempo> 23.45 </tiempo>
+        <fechaHora> 2022-09-15 11:35 LTS</fechaHora>
+    </consumo>
+    <consumo nitCliente="3002" idInstancia="321"> 
+        <tiempo> 10.15 </tiempo>
+        <fechaHora> 2022-09-23 18:12 </fechaHora>
+    </consumo>
+    <consumo nitCliente="3002" idInstancia="322"> 
+        <tiempo> 23.30</tiempo>
+        <fechaHora> 2022-07-15 11:31 </fechaHora>
+    </consumo>
+</listadoConsumos>

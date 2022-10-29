@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<archivoConfiguraciones>
+        <listaRecursos>
+            <recurso id="1000">
+                <nombre>Nucleo de unidad central de procesamiento</nombre>
+                <abreviatura>CPU</abreviatura>
+                <metrica>Ghz </metrica>
+                <tipo>Procesamiento</tipo>
+                <valorXhora>0.02</valorXhora>
+            </recurso>
+            <recurso id="1001">
+                <nombre>Memoria de Acceso Aleatorio</nombre>
+                <abreviatura>RAM</abreviatura>
+                <metrica>GB </metrica>
+                <tipo>Almacenamiento</tipo>
+                <valorXhora>0.03</valorXhora>
+            </recurso>
+            <recurso id="1002">
+                <nombre>Unidad de estado solido</nombre>
+                <abreviatura>SSD</abreviatura>
+                <metrica>GB</metrica>
+                <tipo>Almacenamiento</tipo>
+                <valorXhora>0.03</valorXhora>
+            </recurso>
+            <recurso id="1003">
+                <nombre>Unidad de disco duro</nombre>
+                <abreviatura>DD</abreviatura>
+                <metrica>GB</metrica>
+                <tipo>Almacenamiento</tipo>
+                <valorXhora>0.01</valorXhora>
+            </recurso>
+        </listaRecursos>
+        <listaCategorias>
+            <categoria id="2000">
+                <nombre>Small</nombre>
+                <descripcion>Instancias para ejecucion de proyectos en consola</descripcion>
+                <cargaTrabajo>Minima</cargaTrabajo>
+                <listaConfiguraciones>
+                    <configuracion id="201">
+                        <nombre>Default </nombre>
+                        <descripcion>Configuracion por default</descripcion>
+                        <recursosConfiguracion>
+                            <recurso id="1000"> 2 </recurso>
+                            <recurso id="1001"> 1 </recurso>
+                            <recurso id="1003"> 5 </recurso>
+                        </recursosConfiguracion>
+                    </configuracion>
+                </listaConfiguraciones>
+            </categoria>
+            <categoria id="2001">
+                <nombre>Medium</nombre>
+                <descripcion>Instancias para ejecucion de proyectos medios </descripcion>
+                <cargaTrabajo>Medio</cargaTrabajo>
+                <listaConfiguraciones>
+                    <configuracion id="211">
+                        <nombre>Default </nombre>
+                        <descripcion>Configuracion por default</descripcion>
+                        <recursosConfiguracion>
+                            <recurso id="1000"> 2 </recurso>
+                            <recurso id="1001"> 4 </recurso>
+                            <recurso id="1002"> 50 </recurso>
+                        </recursosConfiguracion>
+                    </configuracion>
+                    <configuracion id="212">
+                        <nombre>Instancia web </nombre>
+                        <descripcion>Configuracion para una aplicacion web</descripcion>
+                        <cargaTrabajo>Medio</cargaTrabajo>
+                        <recursosConfiguracion>
+                            <recurso id="1000"> 3 </recurso>
+                            <recurso id="1001"> 4 </recurso>
+                            <recurso id="1003"> 90 </recurso>
+                        </recursosConfiguracion>
+                    </configuracion>
+                </listaConfiguraciones>
+            </categoria>
+            <categoria id="2002">
+                <nombre>Large</nombre>
+                <descripcion>Instancia potente para juegos</descripcion>
+                <cargaTrabajo>Maximo</cargaTrabajo>
+                <listaConfiguraciones>
+                    <configuracion id="221">
+                        <nombre>Default </nombre>
+                        <descripcion>Configuracion por default</descripcion>
+                        <recursosConfiguracion>
+                            <recurso id="1000"> 8 </recurso>
+                            <recurso id="1001"> 32 </recurso>
+                            <recurso id="1003"> 100 </recurso>
+                        </recursosConfiguracion>
+                    </configuracion>
+                </listaConfiguraciones>
+            </categoria>   
+        </listaCategorias>
+        <listaClientes>
+            <cliente nit="3000">
+                <nombre>Juan Pedro Gonzales</nombre>
+                <usuario>JuanPe</usuario>
+                <clave>MarmotaArbolNido</clave>
+                <direccion>10 calle 13-45 z 1</direccion>
+                <correoElectronico>jaunpems@gosth.com</correoElectronico>
+                <listaInstancias>
+                    <instancia id="31">
+                        <idConfiguracion>201</idConfiguracion>
+                        <nombre>GhostDev1</nombre>
+                        <fechaInicio>10/06/2022 13:13</fechaInicio>
+                        <estado>Vigente</estado>
+                        <fechaFinal></fechaFinal>
+                    </instancia>
+                </listaInstancias>
+            </cliente>
+            <cliente nit="3002">
+                <nombre>Paulo Armas</nombre>
+                <usuario>PArmas</usuario>
+                <clave>Maya354ALD</clave>
+                <direccion>Licon marry land 13 av</direccion>
+                <correoElectronico>pArmas@worldirect.com</correoElectronico>
+                <listaInstancias>
+                    <instancia id="321">
+                        <idConfiguracion>212</idConfiguracion>
+                        <nombre>WorldirectDev1</nombre>
+                        <fechaInicio>21/08/2022 USA</fechaInicio>
+                        <estado>Vigente</estado>
+                        <fechaFinal></fechaFinal>
+                    </instancia>
+                    <instancia id="322">
+                        <idConfiguracion>211</idConfiguracion>
+                        <nombre>WorldirectDev2</nombre>
+                        <fechaInicio>Guatemala 01/07/2022 </fechaInicio>
+                        <estado>Cancelada</estado>
+                        <fechaFinal>10/07/2022 Guatemala</fechaFinal>
+                    </instancia>
+                </listaInstancias>
+            </cliente>
+        </listaClientes>
+</archivoConfiguraciones>
