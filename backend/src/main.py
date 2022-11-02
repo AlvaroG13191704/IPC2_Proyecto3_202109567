@@ -1,5 +1,7 @@
 import datetime
 import json
+import random
+import re
 from flask import Flask, jsonify,request
 from flask_cors import CORS
 from flask_restful import Api
@@ -7,9 +9,14 @@ import xml.etree.ElementTree as ET
 #modules
 
 
+
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
+
+# global variables
+consum_list = []
+
 
 @app.route("/")
 def hello_world():
@@ -120,7 +127,6 @@ def crearInstancia():
             for instancia in cliente['lista_instancias']:
                 if instancia['id'] == data['id']:
                     return jsonify({"error": "La instancia ya existe"})
-
             # validar que idConfiguracion exista
             for categoria in data_base['lista_categorias']:
                 for configuracion in categoria['configuraciones']:
@@ -139,7 +145,67 @@ def crearInstancia():
 
 @app.route('/generarFactura', methods=['POST'])
 def generarFactura():
-    pass
+    data = request.get_json()
+    # obtener base datos
+    with open('data.json') as json_file:
+        data_base = json.load(json_file)
+    
+    # buscar los consumos de un cliente
+    lista_consumo = []
+    for consumo in consum_list:
+        if consumo['nitCliente'] == data['nit']:
+            lista_consumo.append(consumo)
+
+    print(lista_consumo)
+    # expresion regular para obtener fecha
+    
+    # json factura
+    factura = {
+        # id aleatorio
+        "id": random.randint(1, 100000),
+        "Fecha de emision": datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+        "nit_cliente": data['nit'],
+        "Total":0,
+        "Detalle": []
+    }
+   # buscar el cliente
+    for consumo in lista_consumo:
+        for cliente in data_base['lista_clientes']:
+            if cliente['nit'] == consumo['nitCliente']:
+                # verificar instancia
+                for instancia in cliente['lista_instancias']:
+                    if instancia['id'] == consumo['idInstancia']:
+                        # verificar configuracion
+                        for categoria in data_base['lista_categorias']:
+                            for configuracion in categoria['configuraciones']:
+                                if configuracion['id'] == instancia['idConfiguracion']:
+                                    # calcular el total
+                                    valor_por_recurso = 0
+                                    print(configuracion['recursos_configuracion'])
+                                    for recurso_config in configuracion['recursos_configuracion']:
+                                        for recurso in data_base['lista_recursos']:
+                                            if recurso['id'] == recurso_config['id']:
+                                                print(recurso['valorXhora'])
+                                                valor_por_recurso += float(recurso['valorXhora']) * float(recurso_config['value']) * float(consumo['tiempo'])
+                                        # agregar detalle
+                                        fecha = re.search(r'\d{4}-\d{2}-\d{2}', consumo['fechaHora'])
+                                        factura['Detalle'].append({
+                                            "id": consumo['nitCliente'],
+                                            "fecha": fecha.group(),
+                                            "valor": valor_por_recurso
+                                        })
+
+                                    factura['Total'] += valor_por_recurso
+
+
+
+
+
+                                
+
+    return jsonify({"factura": factura})
+
+
     
 @app.route("/archivoEntrada", methods=['POST'])
 def leer_xml():
@@ -231,13 +297,28 @@ def leer_xml():
                 }
                 list_clients.append(dic_client)
             list_initial_config["lista_clientes"] = list_clients
-
-    
-        
     with open('data.json', 'w') as outfile:
         json.dump(list_initial_config, outfile, indent=4)
     
     return jsonify({"datos": 'se ha leido el xml'})
+
+@app.route("/archivoConsumo", methods=['POST'])
+def leer_xml_consumo():
+    xml_data = request.get_data()
+    # read xml
+    tree =  ET.fromstring(xml_data)
+    for i in tree:
+        for consum in i.iter('consumo'):
+            consum_dic = {
+                "nitCliente": consum.attrib['nitCliente'],
+                "idInstancia": consum.attrib['idInstancia'],
+                "tiempo": consum.find('tiempo').text,
+                "fechaHora": consum.find('fechaHora').text
+            }
+            consum_list.append(consum_dic)
+    print(consum_list)
+    return jsonify({"datos": 'se ha leido el xml de consumos'})
+
 
 
 
