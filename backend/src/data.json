@@ -179,24 +179,6 @@
                     "fechaFinal": "10/07/2022 Guatemala"
                 }
             ]
-        },
-        {
-            "nit": "3003",
-            "nombre": "Anthony Samuel Zea",
-            "usuario": "anthon_sami",
-            "clave": "rock123456",
-            "direccion": "54 calle 6-28 z 11",
-            "correoElectronico": "anthon55@gmail.com",
-            "lista_instancias": [
-                {
-                    "id": "31",
-                    "idConfiguracion": "201",
-                    "nombre": "GhostDev1",
-                    "fechaInicio": "10/06/2022 13:13",
-                    "estado": "Vigente",
-                    "fechaFinal": "null"
-                }
-            ]
         }
     ]
 }

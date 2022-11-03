@@ -1,17 +1,12 @@
 import datetime
 import json
 import random
-import re
 from flask import Flask, jsonify,request
-from flask_cors import CORS
 from flask_restful import Api
 import xml.etree.ElementTree as ET
 #modules
 
-
-
 app = Flask(__name__)
-CORS(app)
 api = Api(app)
 
 # global variables
@@ -156,8 +151,6 @@ def generarFactura():
         if consumo['nitCliente'] == data['nit']:
             lista_consumo.append(consumo)
 
-    print(lista_consumo)
-    # expresion regular para obtener fecha
     
     # json factura
     factura = {
@@ -183,30 +176,76 @@ def generarFactura():
                                     valor_por_recurso = 0
                                     print(configuracion['recursos_configuracion'])
                                     for recurso_config in configuracion['recursos_configuracion']:
+                                        lista_recursos = []
                                         for recurso in data_base['lista_recursos']:
                                             if recurso['id'] == recurso_config['id']:
                                                 print(recurso['valorXhora'])
                                                 valor_por_recurso += float(recurso['valorXhora']) * float(recurso_config['value']) * float(consumo['tiempo'])
-                                        # agregar detalle
-                                        fecha = re.search(r'\d{4}-\d{2}-\d{2}', consumo['fechaHora'])
-                                        factura['Detalle'].append({
-                                            "id": consumo['nitCliente'],
-                                            "fecha": fecha.group(),
-                                            "valor": valor_por_recurso
-                                        })
 
-                                    factura['Total'] += valor_por_recurso
+                                            # agregar detalle recurso
+                                            recurso_dic = {
+                                                "id": recurso['id'],
+                                                "nombre": recurso['nombre'],
+                                                "valorXhora": recurso['valorXhora'],
+                                            }
+                                            lista_recursos.append(recurso_dic)
+                                    # agregar detalle configuracion
+                                    configuracion_dic = {
+                                        "id": configuracion['id'],
+                                        "nombre": configuracion['nombre'],
+                                        "recursos": lista_recursos
+                                    }
+                                    # agregar detalle instanciaaunque
+                                    instancia_dic = {
+                                        "id": instancia['id'],
+                                        "nombre": instancia['nombre'],
+                                        "fecha de inicio": instancia['fechaInicio'],
+                                        "fecha de fin": consumo['fechaHora'],
+                                        "configuraciones": [configuracion_dic]
+                                    }
+                                    # agregar detalle cliente
+                                    cliente_dic = {
+                                        "nit": cliente['nit'],
+                                        "nombre": cliente['nombre'],
+                                        "valor de consumo": valor_por_recurso,
+                                        "instancias": [instancia_dic],
+                                    }
+                                    # agregar detalle factura
+                                    factura['Detalle'].append(cliente_dic)
+                                    factura['Total'] += valor_por_recurso    
 
+    # guardar factura en cliente
+    for cliente in data_base['lista_clientes']:
+        if cliente['nit'] == data['nit']:
+            cliente['lista_facturas'] = []
+            cliente['lista_facturas'].append(factura)
+            # guardar base datos
+            with open('data.json', 'w') as outfile:
+                json.dump(data_base, outfile, indent=4)
+                # eliminar detalles 
+                del factura['Detalle']
+            return jsonify({
+                "mensaje": "Factura creada exitosamente", 
+                "factura": factura
+            }), 200
+    return jsonify({"error": "El cliente no existe"})
 
-
-
-
-                                
-
-    return jsonify({"factura": factura})
-
-
-    
+@app.route('/detalleFactura', methods=['POST'])
+def detalleFactura():
+    data = request.get_json()
+    # obtener base datos
+    with open('data.json') as json_file:
+        data_base = json.load(json_file)
+    # buscar el cliente
+    for cliente in data_base['lista_clientes']:
+        if cliente['nit'] == data['nit']:
+            # buscar la factura
+            for factura in cliente['lista_facturas']:
+                if factura['id'] == data['idFactura']:
+                    return jsonify(factura), 200
+            return jsonify({"error": "La factura no existe"})
+            
+# obtener facturas de un cliente
 @app.route("/archivoEntrada", methods=['POST'])
 def leer_xml():
     xml_data = request.get_data()
@@ -218,7 +257,6 @@ def leer_xml():
         "lista_categorias": None,
         "lista_clientes": None,
     }
-
     for i in tree:
         list_resource = []
         for resource_list in i.iter('listaRecursos'):
